@@ -1,30 +1,26 @@
 fun main() {
     val input = readInput("Day03")
     println("Part One ${partOne(input)}")
-    println("Part Two ${PartTwo(input)}")
-}
-
-private fun PartTwo(input: List<String>) = input.map { it.toCharArray() }
-        .chunked(3)
-        .map { findBadgeForGroup(it) }
-        .map { values.indexOf(it) + 1 }
-        .sum()
-
-fun findBadgeForGroup(lists: List<CharArray>): Char {
-    val result = lists[0].find { char -> lists[1].contains(char) && lists[2].contains(char) }
-    return result!! //Should fail if not found
+    println("Part Two ${partTwo(input)}")
 }
 
 private fun partOne(readInput: List<String>) = readInput
-        .map { listOf(it.substring(0, (it.length / 2)), it.substring(it.length / 2, it.length)) }
+        .map { it.chunked(it.length / 2) }
         .map { findCommon(it) }
-        .map { values.indexOf(it) + 1 }
-        .sum()
+        .sumOf { values.indexOf(it) + 1 }
 
-fun findCommon(input: List<String>): Char {
-    val lists = input.map { it.toCharArray() }
-    val result = lists[0].find { char -> lists[1].contains(char) }
-    return result!! //Should fail if not found
-}
+private fun partTwo(input: List<String>) = input.map { it.toCharArray() }
+        .chunked(3)
+        .map { findBadgeForGroup(it) }
+        .sumOf { values.indexOf(it) + 1 }
 
-val values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+fun findBadgeForGroup(lists: List<CharArray>): Char =
+        lists[0].find { char -> lists[1].contains(char) && lists[2].contains(char) }!! //Should fail if not found
+
+fun findCommon(input: List<String>): Char =
+        findCommonChar(input.map { it.toCharArray() })
+
+fun findCommonChar(input: List<CharArray>): Char =
+        input[0].find { char -> input[1].contains(char) }!! //Should fail if not found
+
+const val values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
