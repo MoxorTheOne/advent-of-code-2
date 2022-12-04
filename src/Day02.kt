@@ -14,9 +14,7 @@ suspend fun main() {
         .map { it.split(" ") }
 
     println("Part 1 ${partOne(input)}")
-
-    println("Part 2 " + partOne(input.map { swapMyInput(it) }))
-
+    println("Part 2 ${partOne(input.map { swapMyInput(it) })}")
 }
 
 private fun swapMyInput(input: List<String>): List<String> {
@@ -24,8 +22,7 @@ private fun swapMyInput(input: List<String>): List<String> {
         "X" -> return listOf(input[0], lose(input[0]))
         "Y" -> return listOf(input[0], draw(input[0]))
     }
-    //Z
-    return listOf(input[0], win(input[0]))
+    return listOf(input[0], win(input[0])) //Z
 }
 
 fun win(to: String): String {
