@@ -4,22 +4,22 @@ fun main() {
     val input = readRawInput("Day05")
         .split("\n\n")
 
-    val boxesStacks = BoxesStacks(input[0])
+    val boxesStacksPartOne = BoxesStacks(input[0])
+    val boxedParTwo = boxesStacksPartOne.copy()
     println("input:")
-    boxesStacks.print()
+    boxesStacksPartOne.print()
     println()
-    input[1].lines()
+    val instructions = input[1].lines()
         .map { it.split(" ") }
         .map { Instruction(it) }
-        .forEach { boxesStacks.execute(it) }
-    println("result:")
-    boxesStacks.print()
+
+
+    instructions.forEach { boxesStacksPartOne.execute(it) }
     println()
-    boxesStacks.printPartOne()
+    instructions.forEach { boxedParTwo.executePartTwo(it) }
 
-
-//    println("Part One ${input.count { it[0].fullOverlaps(it[1]) }}")
-//    println("Part Two ${input.count { it[0].overlaps(it[1]) }}")
+    println("Part One ${boxesStacksPartOne.printResult()}")
+    println("Part Two ${boxedParTwo.printResult()}")
 }
 
 data class Instruction(val line: List<String>) {
@@ -30,7 +30,7 @@ data class Instruction(val line: List<String>) {
     override fun toString() = "Move $amount from $from to $to"
 }
 
-class BoxesStacks(input: String) {
+data class BoxesStacks(val input: String) {
 
     val stacks: List<ArrayDeque<String>> = parseInput(input)
 
@@ -38,6 +38,14 @@ class BoxesStacks(input: String) {
         for (i in 0 until instruction.amount) {
             stacks[instruction.to].push(stacks[instruction.from].pop())
         }
+    }
+
+    fun executePartTwo(instruction: Instruction) {
+        var cache = mutableListOf<String>()
+        for (i in 0 until instruction.amount) {
+            cache.add(stacks[instruction.from].pop())
+        }
+        cache.reversed().forEach { stacks[instruction.to].push(it) }
     }
 
     fun print() = stacks.forEach { println(it) }
@@ -62,7 +70,7 @@ class BoxesStacks(input: String) {
             it.replace("[", "").replace("]", "")
         }
 
-    fun printPartOne() {
-        stacks.forEach { print(it.peek()) }
+    fun printResult(): String {
+        return stacks.fold("") { a, b -> a + b.peek() }
     }
 }
