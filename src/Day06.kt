@@ -1,24 +1,23 @@
-val day06exampleA = "bvwbjplbgvbhsrlpgdmjqwftvncz"//5
-val day06exampleB = "nppdvjthqldpwncqszvftbrmjlhg"//6
-val day06exampleC = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"//10
-val day06exampleD = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"//11
-
 fun main() {
-    check(day06PartOne(day06exampleA) == 5)
-    check(day06PartOne(day06exampleB) == 6)
-    check(day06PartOne(day06exampleC) == 10)
-    check(day06PartOne(day06exampleD) == 11)
+    fun allCharsDifferent(string: String): Boolean =
+        string.toCharArray().all { a -> string.count { b -> b == a } == 1 }
 
-    println("Part One " + day06PartOne(readRawInput("Day06")))
+    fun day06(input: String, window: Int): Int =
+        input.indexOf(input.windowed(window).find { t -> allCharsDifferent(t) }!!) + window
 
+
+    check(day06("bvwbjplbgvbhsrlpgdmjqwftvncz", 4) == 5)
+    check(day06("nppdvjthqldpwncqszvftbrmjlhg", 4) == 6)
+    check(day06("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 4) == 10)
+    check(day06("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 4) == 11)
+
+    println("Part One " + day06(readRawInput("Day06"), 4))
+
+    check(day06("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 14) == 19)
+    check(day06("bvwbjplbgvbhsrlpgdmjqwftvncz", 14) == 23)
+    check(day06("nppdvjthqldpwncqszvftbrmjlhg", 14) == 23)
+    check(day06("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 14) == 29)
+    check(day06("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 14) == 26)
+
+    println("Part Two " + day06(readRawInput("Day06"), 14))
 }
-
-fun day06PartOne(input: String): Int {
-    val startMarker = input.windowed(4)
-        .find { t -> allCharsDifferent(t) }
-
-    return input.indexOf(startMarker!!) + 4
-}
-
-fun allCharsDifferent(string: String): Boolean =
-    string.toCharArray().all { a -> string.count { b -> b == a } == 1 }
