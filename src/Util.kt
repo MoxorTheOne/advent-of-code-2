@@ -7,7 +7,7 @@ class Util {
 fun readInput(name: String) = File("src", "$name.txt")
     .readLines()
 
-fun readRawInput(name: String) = File("src", "$name.txt").readText()
+fun readRawInput(name: String) = File("src", "Data/$name.txt").readText()
 
 fun rotateMatrix90Right(removeBottom: List<List<String>>): MutableList<MutableList<String>> {
     val width = removeBottom.maxOf { it.count() }
