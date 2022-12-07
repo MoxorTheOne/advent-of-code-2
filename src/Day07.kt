@@ -25,30 +25,16 @@ fun main() {
         }
     }
 
-    while (current.parent != null)
+    while (current.parent != null)// Point to root
         current = current.parent!!
 
-    val directoriesSizes = allDirectories
-        .map { it.size }
-    val sum = directoriesSizes
-        .filter { it <= 100000 }
-        .sum()
+    val directoriesSizes = allDirectories.map { it.size }
 
-    println("Part one $sum")
+    println("Part one ${directoriesSizes.filter { it <= 100000 }.sum()}")
 
-    val fileSystemSize = 70000000;
-    val freeSpaceNeeded = 30000000;
-    val actualFreeSpace = fileSystemSize - current.size
-    val minimumToFree = freeSpaceNeeded - actualFreeSpace
+    val minimumSpaceToFree = 30000000 - (70000000 - current.size)
 
-    println("Need to free $minimumToFree")
-
-    val sizeToFree = directoriesSizes
-        .filter { it >= minimumToFree }
-        .sorted()
-        .first()
-
-    println("Part Two $sizeToFree")
+    println("Part Two ${directoriesSizes.filter { it >= minimumSpaceToFree }.minOf { it }}")
 
 }
 
