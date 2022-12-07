@@ -35,14 +35,14 @@ data class BoxesStacks(val input: String) {
     val stacks: List<ArrayDeque<String>> = parseInput(input)
 
     fun execute(instruction: Instruction) {
-        for (i in 0 until instruction.amount) {
+        repeat(instruction.amount) {
             stacks[instruction.to].push(stacks[instruction.from].pop())
         }
     }
 
     fun executePartTwo(instruction: Instruction) {
-        var cache = mutableListOf<String>()
-        for (i in 0 until instruction.amount) {
+        val cache = mutableListOf<String>()
+        repeat(instruction.amount) {
             cache.add(stacks[instruction.from].pop())
         }
         cache.reversed().forEach { stacks[instruction.to].push(it) }
