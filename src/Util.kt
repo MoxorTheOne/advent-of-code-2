@@ -1,10 +1,6 @@
 import java.io.File
 
-class Util {
-
-}
-
-fun readInput(name: String) = File("src", "$name.txt")
+fun readInput(name: String) = File("src", "Data/$name.txt")
     .readLines()
 
 fun readRawInput(name: String) = File("src", "Data/$name.txt").readText()
