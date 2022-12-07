@@ -28,12 +28,28 @@ fun main() {
     while (current.parent != null)
         current = current.parent!!
 
-    val sum = allDirectories
+    val directoriesSizes = allDirectories
         .map { it.size }
+    val sum = directoriesSizes
         .filter { it <= 100000 }
         .sum()
 
     println("Part one $sum")
+
+    val fileSystemSize = 70000000;
+    val freeSpaceNeeded = 30000000;
+    val actualFreeSpace = fileSystemSize - current.size
+    val minimumToFree = freeSpaceNeeded - actualFreeSpace
+
+    println("Need to free $minimumToFree")
+
+    val sizeToFree = directoriesSizes
+        .filter { it >= minimumToFree }
+        .sorted()
+        .first()
+
+    println("Part Two $sizeToFree")
+
 }
 
 class File(line: String) {
